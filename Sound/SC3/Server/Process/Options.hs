@@ -1,4 +1,4 @@
-module Sound.SC3.Server.Process.Options (
+module Sound.Sc3.Server.Process.Options (
   Verbosity(..)
 , ServerOptions(..)
 , defaultServerOptions
@@ -20,7 +20,7 @@ module Sound.SC3.Server.Process.Options (
 ) where
 
 import Data.Default (Default(..))
-import Sound.SC3.Server.Enum
+import Sound.Sc3.Server.Enum
 import System.FilePath ((</>))
 
 -- | Used with the 'verbosity' field in 'ServerOptions'.

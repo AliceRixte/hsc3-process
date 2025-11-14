@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
-module Sound.SC3.Server.Process.CommandLine (
+module Sound.Sc3.Server.Process.CommandLine (
     rtCommandLine
   , nrtCommandLine
 ) where
@@ -7,8 +7,8 @@ module Sound.SC3.Server.Process.CommandLine (
 import Data.Default (Default, def)
 import Data.List (intercalate)
 import Data.Maybe (fromMaybe)
-import Sound.SC3.Server.Enum
-import Sound.SC3.Server.Process.Options
+import Sound.Sc3.Server.Enum
+import Sound.Sc3.Server.Process.Options
 
 -- ====================================================================
 -- scsynth commandline options

@@ -2,8 +2,8 @@
 -- | This module includes utilities for spawning an external scsynth process,
 -- either for realtime or non-realtime execution, and for connecting to existing
 -- processes.
-module Sound.SC3.Server.Process (
-  module Sound.SC3.Server.Process.Options
+module Sound.Sc3.Server.Process (
+  module Sound.Sc3.Server.Process.Options
 , OutputHandler(..)
 , defaultOutputHandler
 , NetworkTransport
@@ -21,11 +21,13 @@ import           Control.Monad (liftM, unless, void)
 import qualified Data.ByteString.Lazy as B
 import           Data.Default (Default(..))
 import           Data.List (isPrefixOf)
-import           Sound.OSC.FD (Transport(..))
-import qualified Sound.OSC.FD as OSC
-import           Sound.SC3 (quit)
-import           Sound.SC3.Server.Process.CommandLine
-import           Sound.SC3.Server.Process.Options
+import           Sound.Osc.Fd (Transport(..))
+import qualified Sound.Osc.Fd as OSC
+import qualified Sound.Osc.Transport.Fd.Udp as OSC
+import qualified Sound.Osc.Transport.Fd.Tcp as OSC
+import           Sound.Sc3 (quit)
+import           Sound.Sc3.Server.Process.CommandLine
+import           Sound.Sc3.Server.Process.Options
 import           System.Exit (ExitCode(..))
 import           System.IO (Handle, hFlush, hGetLine, hPutStrLn, stderr, stdout)
 import           System.IO.Error (isEOFError)
@@ -43,14 +45,15 @@ checkPort _ p                         = p
 data NetworkTransport = forall t . Transport t => NetworkTransport t
 
 instance Transport NetworkTransport where
+    sendPacket (NetworkTransport t) = sendPacket t
     recvPacket (NetworkTransport t) = recvPacket t
-    sendOSC (NetworkTransport t) = sendOSC t
+    recvPacketOr (NetworkTransport t) = recvPacketOr t
     close (NetworkTransport t) = close t
 
 -- | Open a network transport connected to a network port.
 openTransport :: String -> NetworkPort -> IO NetworkTransport
-openTransport host (UDPPort p) = NetworkTransport <$> OSC.openUDP host (checkPort "UDP" p)
-openTransport host (TCPPort p) = NetworkTransport <$> OSC.openTCP host (checkPort "TCP" p)
+openTransport host (UDPPort p) = NetworkTransport <$> OSC.openUdp host (checkPort "UDP" p)
+openTransport host (TCPPort p) = NetworkTransport <$> OSC.openTcp host (checkPort "TCP" p)
 
 -- ====================================================================
 -- * Output handler
@@ -146,7 +149,7 @@ withSynth serverOptions rtOptions handler action = do
     cont h = do
       forkPipe onPutString h
       bracket (openTransport localhost (networkPort rtOptions))
-              (\t -> OSC.sendOSC t quit >> OSC.close t)
+              (\t -> OSC.sendMessage t quit >> OSC.close t)
               action
     forkPipe f = void . forkIO . pipeOutput (f handler)
 
