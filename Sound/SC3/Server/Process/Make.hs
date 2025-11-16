@@ -1,4 +1,4 @@
-module Sound.SC3.Server.Process.Make (
+module Sound.Sc3.Server.Process.Make (
   renderNRT
 , makeNRT
 ) where
@@ -6,9 +6,9 @@ module Sound.SC3.Server.Process.Make (
 import Control.Monad (when)
 import Data.Time.Calendar
 import Data.Time.Clock
-import Data.Time.Compat (toUTCTime)
-import Sound.SC3.Server.Process.CommandLine
-import Sound.SC3.Server.Process.Options
+-- import Data.Time.Compat (toUTCTime)
+import Sound.Sc3.Server.Process.CommandLine
+import Sound.Sc3.Server.Process.Options
 import System.Directory
 import System.Exit (ExitCode(ExitSuccess))
 import System.Process (rawSystem)
@@ -43,7 +43,7 @@ makeNRT serverOptions nrtOptions commandFilePath = do
       i_fn = inputFilePath nrtOptions
       epoch = UTCTime (fromGregorian 1858 11 17) 0
       get_mod_tm x fn = if x
-                        then toUTCTime `fmap` getModificationTime fn
+                        then getModificationTime fn
                         else return epoch
       up_to_date = print ("makeNRT: up to date",o_fn) >>
                    return ExitSuccess

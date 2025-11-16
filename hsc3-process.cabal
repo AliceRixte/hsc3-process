@@ -26,26 +26,25 @@ Flag build-examples
   Default:        False
 
 Library
-  Exposed-Modules:  Sound.SC3.Server.Process
-                    Sound.SC3.Server.Process.CommandLine
-                    Sound.SC3.Server.Process.Make
-                    Sound.SC3.Server.Process.Options
+  Exposed-Modules:  Sound.Sc3.Server.Process
+                    Sound.Sc3.Server.Process.CommandLine
+                    Sound.Sc3.Server.Process.Make
+                    Sound.Sc3.Server.Process.Options
 
   Build-Depends:    base >= 3 && < 5
                   , bytestring >= 0.8
                   , containers >= 0.2
                   , data-default >= 0.5
-                  , directory
+                  , directory >= 1.3
                   , filepath
                   , hosc >= 0.14
                   , hsc3 >= 0.14
                   , process >= 1.0
-                  , time
-                  , time-compat
+                  , time >= 1.9
                   , transformers >= 0.2
 
   Ghc-Options:      -Wall
- 
+
 Source-Repository head
   Type:             git
   Location:         git://github.com/kaoskorobase/hsc3-process.git
